@@ -13,6 +13,8 @@ cp -aT /etc/skel/ /root/
 useradd -m -p "" -g users -G "adm,audio,floppy,log,network,rfkill,scanner,storage,optical,power,wheel" -s /bin/zsh arch
 useradd -m -g users -G "adm,audio,floppy,log,network,rfkill,scanner,storage,optical,power,wheel" -d /home/njbair -s /bin/zsh njbair
 
+/home/njbair/dotfiles/install.sh /home/njbair/dotfiles
+
 chmod 750 /etc/sudoers.d
 chmod 440 /etc/sudoers.d/*
 
@@ -23,4 +25,4 @@ sed 's#\(^ExecStart=-/sbin/agetty\)#\1 --autologin njbair#;
      /usr/lib/systemd/system/getty@.service > /etc/systemd/system/autologin@.service
 
 systemctl disable getty@tty1.service
-systemctl enable multi-user.target pacman-init.service autologin@.service dhcpcd.service
+systemctl enable multi-user.target pacman-init.service autologin@.service dhcpcd.service gpm.service

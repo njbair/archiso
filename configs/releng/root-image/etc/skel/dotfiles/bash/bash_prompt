@@ -1,0 +1,103 @@
+#!/bin/bash
+
+# 0 black
+# 1 red
+# 2 green
+# 3 yellow
+# 4 blue
+# 5 purple
+# 6 cyan
+# 7 white
+
+# Colors
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+purple="$(tput setaf 5)"
+cyan="$(tput setaf 6)"
+white="$(tput setaf 7)"
+blackbold="$(tput bold ; tput setaf 0)"
+redbold="$(tput bold ; tput setaf 1)"
+greenbold="$(tput bold ; tput setaf 2)"
+yellowbold="$(tput bold ; tput setaf 3)"
+bluebold="$(tput bold ; tput setaf 4)"
+purplebold="$(tput bold ; tput setaf 5)"
+cyanbold="$(tput bold ; tput setaf 6)"
+whitebold="$(tput bold ; tput setaf 7)"
+blackbg="$(tput setab 0)"
+redbg="$(tput setab 1)"
+greenbg="$(tput setab 2)"
+yellowbg="$(tput setab 3)"
+bluebg="$(tput setab 4)"
+purplebg="$(tput setab 5)"
+cyanbg="$(tput setab 6)"
+whitebg="$(tput setab 7)"
+reset="$(tput sgr0)"
+
+# Special colors for each distro
+#
+# Variable assignments are as follows:
+# e: enclosure characters (brackets)
+# u: username@hostname
+# p: present working directory
+# t: terminal character ($ or #)
+# r: reset code
+# n: non-zero exit code
+
+# choose color scheme based on distro
+case "$DISTRO" in
+	"arch")
+		e="$blue"
+		u="$cyan"
+		p="$white"
+		;;
+	"debian")
+		e="$blackbold"
+		u="$red"
+		p="$white"
+		;;
+	"Ubuntu")
+		e="$purple"
+		u="$yellow"
+		p="$white"
+		;;
+	*)
+		e="$white"
+		u="$green"
+		p="$blue"
+		;;
+esac
+
+# hostname-specific colors (overrides distro-specific schemes)
+case "$HOSTNAME" in
+	"raspberrypi")
+		e="$red"
+		u="$green"
+		p="$white"
+		;;
+esac
+
+# root colors (overrides distro- and host-specific schemes)
+if [ "`whoami`" == "root" ]
+then
+	e="$purple"
+	u="$red"
+	p="$white"
+fi
+
+t="$white"
+r="$reset"
+n="$redbold"
+
+# Escape codes \[ and \] are used around variables so that the shell
+# knows not to interpret them as visible characters which take up space.
+# If escape codes are not used, the shell will incorrectly wrap the
+# command line because it thinks the prompt is longer than it is.
+#
+#    0  1        2            3   45
+# ret:1 [username@hostname homedir]$
+#
+#                                               0                   1          2                3        4         5
+PS1='`ret=$?; test $ret -ne 0 && echo "\[$n\]ret:$ret\[$r\] "`\[$e\][\[$r$u\]\u@\h\[$r\] \[$p\]\W\[$r$e\]]\[$r$t\]\$\[$r\] '

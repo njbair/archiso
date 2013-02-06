@@ -62,6 +62,8 @@ ext3grep
 ext4magic
 extundelete
 git
+gpm
 lynx
 python
+screen
 vim

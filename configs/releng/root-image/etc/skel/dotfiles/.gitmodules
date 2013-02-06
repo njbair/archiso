@@ -1,0 +1,9 @@
+[submodule "vim"]
+	path = vim
+	url = git://github.com/njbair/vim.git
+[submodule "bash"]
+	path = bash
+	url = git://github.com/njbair/bash.git
+[submodule "oh-my-zsh"]
+	path = oh-my-zsh
+	url = git://github.com/njbair/oh-my-zsh.git
